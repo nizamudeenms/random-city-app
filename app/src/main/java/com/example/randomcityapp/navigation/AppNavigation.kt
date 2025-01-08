@@ -10,9 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.randomcityapp.ui.components.ExitConfirmationDialog
+import com.example.randomcityapp.ui.screen.MainScreen
 import com.example.randomcityapp.ui.screen.SplashScreen
 import com.example.randomcityapp.ui.screens.DetailsScreen
-import com.example.randomcityapp.ui.screens.MainScreen
 import com.example.randomcityapp.viewmodels.MainViewModel
 
 @Composable

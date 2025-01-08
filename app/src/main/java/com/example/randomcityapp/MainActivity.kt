@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import androidx.window.layout.WindowMetricsCalculator
 import com.example.randomcityapp.data.database.AppDatabase
-import com.example.randomcityapp.data.repository.CityRepository
+import com.example.randomcityapp.domain.repository.CityRepository
 import com.example.randomcityapp.navigation.AppNavigation
 import com.example.randomcityapp.producer.CityProducer
 import com.example.randomcityapp.ui.components.ExitConfirmationDialog
@@ -26,29 +27,33 @@ import com.example.randomcityapp.ui.components.SideBySideLayout
 import com.example.randomcityapp.ui.screens.MainScreen
 import com.example.randomcityapp.ui.theme.RandomCityAppTheme
 import com.example.randomcityapp.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var cityProducer: CityProducer
+
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var cityProducerJob: CoroutineScope
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize Room database
-        val database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "city_database"
-        ).build()
-
-        val repository = CityRepository(database.cityDao())
+//        val repository = CityRepository(database.cityDao())
+//        val mainViewModel = MainViewModel(repository)
 //        val mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        val mainViewModel = MainViewModel(repository)
 
-        val cityProducer = CityProducer(repository)
-        cityProducerJob = CoroutineScope(Dispatchers.IO)
+        lifecycle.addObserver(cityProducer)
+
+        cityProducerJob = CoroutineScope(Dispatchers.IO + Job())
         cityProducer.startProducing(cityProducerJob)
 
         setContent {
@@ -104,6 +109,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        lifecycle.removeObserver(cityProducer)
+        cityProducer.cleanup()
         cityProducerJob.cancel()
     }
 }

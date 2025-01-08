@@ -6,5 +6,7 @@ plugins {
 buildscript {
     dependencies {
         classpath(libs.secrets.gradle.plugin)
+        classpath(libs.hilt.android.gradle.plugin)
+
     }
 }

@@ -67,7 +67,7 @@ fun DetailsScreen(city: String, color: String, modifier: Modifier = Modifier) {
     LaunchedEffect(city) {
         val workRequest = OneTimeWorkRequestBuilder<CityToastWorker>()
             .setInputData(workDataOf("cityName" to city))
-            .setInitialDelay(5, TimeUnit.SECONDS)
+            .setInitialDelay(1, TimeUnit.SECONDS)
             .build()
 
         WorkManager.getInstance(context).enqueue(workRequest)

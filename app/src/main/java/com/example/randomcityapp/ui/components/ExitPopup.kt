@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.activity.compose.BackHandler
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ExitConfirmationDialog(
@@ -52,4 +53,10 @@ fun ExitConfirmationDialog(
             }
         )
     }
+}
+
+@Preview
+@Composable
+private fun ExitConfirmationDialogPreview() {
+    ExitConfirmationDialog()
 }

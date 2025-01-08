@@ -4,7 +4,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("dagger.hilt.android.plugin")
 }
+
 
 android {
     namespace = "com.example.randomcityapp"
@@ -110,6 +112,9 @@ dependencies {
     implementation(libs.play.services.location)
 
     implementation(libs.lottie.compose)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
 
 }

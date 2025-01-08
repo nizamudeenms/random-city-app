@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -30,11 +31,16 @@ fun SplashScreen(onNavigateToMain: () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
             Loader()
-            Text("Random City App", fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 16.dp))
+            Text(
+                "Random City App",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 16.dp)
+            )
         }
     }
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(3000)
         onNavigateToMain()
     }
 }
@@ -46,7 +52,14 @@ fun Loader() {
     LottieAnimation(
         composition = composition,
         progress = { progress },
-        modifier = Modifier.size(300.dp)
+        modifier = Modifier.fillMaxSize(0.8f)
 
     )
+}
+
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable()
+private fun SplashScreenPreview() {
+    SplashScreen(onNavigateToMain = {})
 }

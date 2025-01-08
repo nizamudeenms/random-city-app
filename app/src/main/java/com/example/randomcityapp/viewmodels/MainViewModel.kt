@@ -3,12 +3,15 @@ package com.example.randomcityapp.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randomcityapp.data.database.CityItem
-import com.example.randomcityapp.data.repository.CityRepository
+import com.example.randomcityapp.domain.repository.CityRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: CityRepository) : ViewModel() {
+@HiltViewModel
+open class MainViewModel @Inject constructor(private val repository: CityRepository) : ViewModel() {
 
 
     private val _cityList = MutableStateFlow<List<CityItem>>(emptyList())

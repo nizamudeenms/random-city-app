@@ -11,6 +11,6 @@ interface CityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCity(city: CityItem)
 
-    @Query("SELECT * FROM CityItem ORDER BY city ASC")
+    @Query("SELECT * FROM CityItem ORDER BY dateTime ASC")
     fun getAllCities(): Flow<List<CityItem>>
 }
